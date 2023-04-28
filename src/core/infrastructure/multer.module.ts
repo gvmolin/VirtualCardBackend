@@ -10,7 +10,7 @@ export const multerConfig = {
 };
 
 // Multer upload options
-export const multerImageOptions = {
+export const multerProductImageOptions = {
   // Enable file size limits
   limits: {
     // fileSize: +process.env.MAX_FILE_SIZE,
