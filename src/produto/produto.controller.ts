@@ -1,22 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Paginate, PaginateQuery } from 'nestjs-paginate/lib/decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
+import { multerImageOptions } from 'src/core/infrastructure/multer.module';
 
 @Controller('/produto')
 export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtoService.create(createProdutoDto);
+  @UseInterceptors(FileInterceptor('file', multerImageOptions))
+  create(
+    @Body() createProdutoDto: any, 
+    @UploadedFile() file: Express.Multer.File
+    
+  ) {
+    console.log(file)
+    console.log(createProdutoDto)
+    const form: CreateProdutoDto = {...createProdutoDto, file:process.env.FILES_PATH + file.filename}
+    console.log(form)
+    return this.produtoService.create(form);
   }
 
   @Get()
   public findAll(@Paginate() query: PaginateQuery) {
     console.log("aaa")
     console.log(query)
+    
     const res = this.produtoService.findAll(query);
     console.log(res)
     return res

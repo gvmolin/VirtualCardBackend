@@ -13,7 +13,8 @@ export class ProdutoService {
   ){}
 
   create(createProdutoDto: CreateProdutoDto) {
-    return this.produto.find()
+    // return this.produto.find()
+    this.produto.save(createProdutoDto);
   }
 
   async findAll(query: PaginateQuery){

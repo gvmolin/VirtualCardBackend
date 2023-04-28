@@ -9,12 +9,12 @@ export class Produto extends BaseEntity{
     @Column()
     file:string;
 
-    @Column()
-    valorCompra:string;
+    // @Column()
+    // valorCompra:string;
 
-    @Column()
-    valorVenda:string;
+    // @Column()
+    // valorVenda:string;
 
-    @Column()
-    estoque:number;
+    // @Column()
+    // estoque:number;
 }
